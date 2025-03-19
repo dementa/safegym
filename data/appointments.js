@@ -1,0 +1,55 @@
+const appointments = [
+    {
+      id: "1",
+      title: "Yuga Master Class",
+      coach: "Coach Vic",
+      phone: "+256 758 019 072",
+      time: "8:00 pm",
+      date: "4 Feb 2024",
+      status: "Pending",
+      image: "https://randomuser.me/api/portraits/men/1.jpg",
+    },
+    {
+      id: "2",
+      title: "React Native Bootcamp",
+      coach: "Sarah Jones",
+      phone: "+256 700 456 789",
+      time: "2:00 pm",
+      date: "10 Feb 2024",
+      status: "Confirmed",
+      image: "https://randomuser.me/api/portraits/women/2.jpg",
+    },
+    {
+      id: "3",
+      title: "UI/UX Design Workshop",
+      coach: "David Kim",
+      phone: "+256 770 123 456",
+      time: "5:30 pm",
+      date: "15 Feb 2024",
+      status: "Completed",
+      image: "https://randomuser.me/api/portraits/men/3.jpg",
+    },
+    {
+      id: "4",
+      title: "Fitness Coaching",
+      coach: "Jessica Lee",
+      phone: "+256 755 987 654",
+      time: "7:00 am",
+      date: "20 Feb 2024",
+      status: "Pending",
+      image: "https://randomuser.me/api/portraits/women/4.jpg",
+    },
+    {
+      id: "5",
+      title: "Business Strategy Session",
+      coach: "Michael Smith",
+      phone: "+256 780 654 321",
+      time: "4:00 pm",
+      date: "25 Feb 2024",
+      status: "Confirmed",
+      image: "https://randomuser.me/api/portraits/men/5.jpg",
+    },
+  ];
+  
+  export default appointments;
+  
