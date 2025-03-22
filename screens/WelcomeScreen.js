@@ -24,6 +24,9 @@ const WelcomeScreen = ({ navigation }) => {
       <Button mode="outlined" style={styles.createAccountButton} onPress={() => navigation.navigate("MainApp")}>
         Just Dive in
       </Button>
+      <Button mode="outlined" style={styles.createAccountButton} onPress={() => navigation.navigate("Map")}>
+        Maps
+      </Button>
     </View>
   );
 };

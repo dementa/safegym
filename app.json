@@ -20,6 +20,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCt2ecs6OqL5Vrd-bDFkGCNGg988n99aTI"
+        }
+      },
       "package": "com.victordementa.safegym"
     },
     "web": {

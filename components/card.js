@@ -13,12 +13,12 @@ const GymCard = ({id, image, title, description, coach, time, rating, category, 
         <Card style={styles.card}>
         <Card.Cover source={{ uri: image }} style={styles.image} />
         <Card.Content>
-            <Title style={styles.title}>{title}</Title>
+            <Title style={styles.title} variant={"titleSmall"} numberOfLines={1}>{title}</Title>
             <View style={styles.row}>
             <Avatar.Image size={24} source={{ uri: "https://randomuser.me/api/portraits/men/3.jpg" }} />
             <Text style={styles.coach}>By {coach}</Text>
             </View>
-            <Paragraph>{description}</Paragraph>
+            <Paragraph numberOfLines={1}>{description}</Paragraph>
             <View style={styles.footer}>
             <View style={styles.rating}>
                 <MaterialIcons name="star" size={18} color="gold" />

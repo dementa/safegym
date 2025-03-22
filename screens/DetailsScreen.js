@@ -7,6 +7,10 @@ const DetailsScreen = ({ route }) => {
   const { classData } = route.params;
   const navigation = useNavigation();
 
+  const handleProceedToBooking = () => {
+    navigation.navigate('BookingScreen', { classData });
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageContainer}>
@@ -23,15 +27,12 @@ const DetailsScreen = ({ route }) => {
           <Text style={styles.rating}>⭐ {classData.rating}</Text>
           <Text style={styles.time}>{classData.time}</Text>
         </View>
-        <Button mode="contained" style={styles.infoButton}>
-          Get more info
-        </Button>
         <Text style={styles.description}>{classData.description}</Text>
       </View>
 
       <View style={styles.priceContainer}>
         <Text style={styles.price}>${classData.price}</Text>
-        <Button mode="contained" style={styles.bookButton}>
+        <Button mode="contained" onPress={handleProceedToBooking} style={styles.bookButton}>
           Book Now
         </Button>
       </View>

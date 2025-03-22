@@ -15,6 +15,9 @@ import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import DetailsScreen from './screens/DetailsScreen';
+import MapScreen from './screens/MapScreen';
+import BookingScreen from './screens/BookingScreen';
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -57,6 +60,8 @@ export default function App() {
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="Map" component={MapScreen} />
+          <Stack.Screen name="BookingScreen" component={BookingScreen} />
           <Stack.Screen name="Details" component={DetailsScreen} screenOptions={{ headerShown: true }} />
           {/* Main App: Bottom Tabs */}
           <Stack.Screen name="MainApp" component={MainAppTabs} />

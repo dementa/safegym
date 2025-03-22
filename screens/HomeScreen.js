@@ -5,6 +5,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Avatar, IconButton } from "react-native-paper";
 import GymClassesCard from "../components/gymCards";
 import TrendingCard from "../components/TrendingCards";
+import AppointmentCard from "../components/appointtmentCard";
 
 
 const appointments = [
@@ -75,28 +76,29 @@ const HomeScreen = () => {
     <ScrollView style={{ flex: 1, backgroundColor: "#f5f5f5" }}>
       <Title style={{ marginBottom: 8, marginLeft: 16 }}>My Appointments</Title>
 
-      <ScrollView horizontal style={{padding: 16, flexDirection: "row" }}>
+      <ScrollView horizontal style={{padding: 16, flexDirection: "row", width: "100%"}}>
         { appointments.map(({ id, title, trainer, phone, time, date, status, image }) => (
-          <Card style={styles.card} key={id}>
-            <Card.Title
-              title={title}
-              subtitle={`By ${trainer}`}
-              left={(props) => <Avatar.Image {...props} source={{ uri: image }} />}
-              right={(props) => <IconButton {...props} icon="dots-vertical" />}
-              styles={{fontSize: 48}}
-            />
-            <Card.Content style={{flex: 1, flexDirection: "row", }}>
-              <Text>
-                <Text style={styles.phone}>{phone}</Text>
-                <Text style={styles.contact}>Contact</Text>
-                <Text style={styles.time}>{time}</Text>
-                <Text style={styles.date}>{date}</Text>
-              </Text>
-            </Card.Content>
-            <Card.Actions>
-              <Text style={styles.status}>{status}</Text>
-            </Card.Actions>
-          </Card>
+          // <Card style={styles.card} key={id}>
+          //   <Card.Title
+          //     title={title}
+          //     subtitle={`By ${trainer}`}
+          //     left={(props) => <Avatar.Image {...props} source={{ uri: image }} />}
+          //     right={(props) => <IconButton {...props} icon="dots-vertical" />}
+          //     styles={{fontSize: 48}}
+          //   />
+          //   <Card.Content style={{flex: 1, flexDirection: "row", }}>
+          //     <Text>
+          //       <Text style={styles.phone}>{phone}</Text>
+          //       <Text style={styles.contact}>Contact</Text>
+          //       <Text style={styles.time}>{time}</Text>
+          //       <Text style={styles.date}>{date}</Text>
+          //     </Text>
+          //   </Card.Content>
+          //   <Card.Actions>
+          //     <Text style={styles.status}>{status}</Text>
+          //   </Card.Actions>
+          // </Card>
+          <AppointmentCard key={id}/>
         ))}
       </ScrollView>
       <GymClassesCard/>
