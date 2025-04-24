@@ -1,5 +1,5 @@
 import { signInWithPopup, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
-import {db, auth} from '../firebaseConfig';
+import {db, auth} from '../firebase/firebaseConfig';
 import { collection, doc, setDoc, getDoc } from 'firebase/firestore';
 import * as Google from "expo-auth-session/providers/google";
 import { useEffect } from "react";

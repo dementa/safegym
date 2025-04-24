@@ -1,9 +1,9 @@
 import React from 'react';
 import { create } from 'zustand';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { db } from "../firebaseConfig"
+import { db } from "../firebase/firebaseConfig"
 import { addDoc, collection, getDoc, doc, setDoc, updateDoc } from "firebase/firestore"
-import { auth } from '../firebaseConfig';
+import { auth } from '../firebase/firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
 
 export const useAuthStore = create((set, get ) => ({

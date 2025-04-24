@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   signInButton: {
-    backgroundColor: 'orange',
+    backgroundColor: '#F7941D',
     marginVertical: 10,
   },
   appleButton: {
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   signupLink: {
-    color: 'orange',
+    color: '#F7941D',
     fontWeight: 'bold',
   },
 });

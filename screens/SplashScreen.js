@@ -2,12 +2,17 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
-export default function SplashScreen({ navigation }) {
+export default function SplashScreen(props) {
+  // Use either the navigation prop or the hook fallback
+  const navigation = props.navigation || useNavigation();
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      // After 3 seconds, replace the splash screen with the Welcome screen
-      navigation.replace('Welcome');
+      if (navigation?.replace) {
+        navigation.replace('Welcome'); // Navigate only if available
+      }
     }, 5000);
 
     return () => clearTimeout(timer);
@@ -15,13 +20,11 @@ export default function SplashScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Logo centered */}
       <Image
         source={require('../assets/images/logo.png')}
         style={styles.logo}
         resizeMode="contain"
       />
-      {/* Spinning loader at the bottom */}
       <ActivityIndicator 
         animating={true} 
         size="large" 
@@ -35,7 +38,7 @@ export default function SplashScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'orange',
+    backgroundColor: '#F7941D',
     justifyContent: 'center',
     alignItems: 'center',
   },

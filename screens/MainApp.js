@@ -12,8 +12,8 @@ import { Text, Avatar, Button, Card, Chip } from 'react-native-paper';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 
-const HomeScreen = ({ navigation, route }) => {
-  const { user, userRole } = route.params || {};
+const MainApp = ({ navigation, route, userID }) => {
+  const { user, userRole } = route.params || {uid: "5o2z4Aj5qpPTKvd1J8gE4MEKaFY2"};
   const [sessions, setSessions] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [trainers, setTrainers] = useState([]);
@@ -50,35 +50,11 @@ const HomeScreen = ({ navigation, route }) => {
     <ScrollView style={styles.container}>
       {/* Top Bar */}
       <View style={styles.topBar}>
-        <Image source={require('../assets/images/logo.png')} style={styles.logo} />
+        <Image source={require('../assets/images/logo2.png')} style={styles.logo} />
         
-        <Text onPress={() => navigation.navigate('RoleSelection')}>Log in</Text>
+        <Avatar.Icon size={36} icon="account" />
       </View>
 
-      {/* Promo or Appointments */}
-      {!user ? (
-        <Card style={styles.promoCard}>
-          <View style={styles.promoContent}>
-            <Image source={require('../assets/images/featured.png')} style={styles.promoImage} />
-            <View style={styles.promoTextBlock}>
-              <Text variant="headlineSmall" style={{ color: 'white', fontWeight: 'bold', textAlign: 'right'}}>
-                SIGN UP NOW!
-              </Text>
-              <Text variant="bodySmall" style={{ color: '#ffd', marginVertical: 6, fontWeight: 150,textAlign: 'right' }}>
-                Workout more as you manage all your gym appointments and sessions in place 
-              </Text>
-              <Button
-                mode="contained"
-                onPress={() => navigation.navigate('Register')}
-                compact
-                style={styles.joinBtn}>
-                Join Now
-              </Button>
-            </View>
-          </View>
-        </Card>
-      ) : (
-        <>
           <Text variant="titleMedium" style={styles.sectionTitle}>Your Appointments</Text>
           <FlatList
             horizontal
@@ -94,8 +70,7 @@ const HomeScreen = ({ navigation, route }) => {
             )}
             keyExtractor={item => item.id}
           />
-        </>
-      )}
+      
 
       {/* Available Sessions */}
       <Text variant="titleMedium" style={styles.sectionTitle}>Available Sessions</Text>
@@ -125,8 +100,8 @@ const HomeScreen = ({ navigation, route }) => {
           <TouchableOpacity key={trainer.id} onPress={() => navigation.navigate('Trainer', { trainer })}>
             <View style={{ alignItems: 'center' }}>
               <Avatar.Image size={60} source={{ uri: trainer.imageUrl }} />
-              <RNText style={{ marginTop: 6, fontWeight: '600' }}>{trainer.name}</RNText>
-              <RNText style={{ fontSize: 12, color: '#888' }}>{trainer.spec}</RNText>
+              <RNText style={{ marginTop: 6, fontWeight: '600' }}>{trainer.firstName}</RNText>
+              <RNText style={{ fontSize: 12, color: '#888' }}>{trainer.specialization}</RNText>
             </View>
           </TouchableOpacity>
         ))}
@@ -146,15 +121,11 @@ const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   logo: { width: 80, height: 40, resizeMode: 'contain' },
   locationChip: { backgroundColor: '#eee' },
-  promoCard: { marginVertical: 20, borderRadius: 12, backgroundColor: '#F7941D', height: "fit" },
-  promoContent: { flexDirection: 'row', padding:10, alignItems: 'center' },
-  promoImage: { width: 160, height: 160, borderRadius: 10, marginRight: 10, overflow: 'hidden' },
-  promoTextBlock: { flex: 1, alignItems: 'flex-end'},
   joinBtn: { marginTop: 6, backgroundColor: '#000', width: 100},
   sectionTitle: { marginTop: 24, marginBottom: 30, fontSize: 24 },
   sessionCard: { width: 200, marginRight: 10 },
-  trainersRow: { flexDirection: 'row', justifyContent: 'space-between', marginVertical: 16 },
+  trainersRow: { flexDirection: 'row', justifyContent: 'flex-start', gap: 48, marginVertical: 16 },
   footer: { alignItems: 'center', marginVertical: 30 },
 });
 
-export default HomeScreen;
+export default MainApp;

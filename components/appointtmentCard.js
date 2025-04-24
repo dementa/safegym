@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     cardContainer: {
         width: 300,
         marginRight: 16,
-        backgroundColor: "orange",
+        backgroundColor: "#F7941D",
         color: "white",
         overflow: "hidden"
     },

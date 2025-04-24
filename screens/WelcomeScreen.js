@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import { Text, Button } from 'react-native-paper';
+import UploadMediaFiles from '../src';
 
 const WelcomeScreen = ({ navigation }) => {
   return (
@@ -10,23 +11,13 @@ const WelcomeScreen = ({ navigation }) => {
         style={styles.image} 
       />
       <Text style={styles.title}>Let’s</Text>
-      <Text style={styles.subtitle}>Get Started<Text style={{ color: 'orange' }}>.</Text></Text>
+      <Text style={styles.subtitle}>Get Started<Text style={{ color: '#F7941D' }}>.</Text></Text>
       <Text style={styles.description}>All gym appointments in one place</Text>
       
-      <Button mode="contained" style={styles.loginButton} onPress={() => navigation.navigate('Login')}>
-        Log In
+      <Button mode="contained" style={styles.loginButton} onPress={() => navigation.navigate('HomeScreen')}>
+        Continue
       </Button>
       
-      <Button mode="outlined" style={styles.createAccountButton} onPress={() => navigation.navigate('Register')}>
-        Create an account
-      </Button>
-
-      <Button mode="outlined" style={styles.createAccountButton} onPress={() => navigation.navigate("MainApp")}>
-        Just Dive in
-      </Button>
-      <Button mode="outlined" style={styles.createAccountButton} onPress={() => navigation.navigate("Map")}>
-        Maps
-      </Button>
     </View>
   );
 };
@@ -41,7 +32,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 250,
+    height: '50%',
     resizeMode: 'cover',
     borderRadius: 20,
   },
@@ -62,7 +53,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     width: '100%',
-    backgroundColor: 'orange',
+    backgroundColor: '#F7941D',
     marginVertical: 10,
     marginTop: 20,
   },
@@ -93,7 +84,7 @@ const styles = StyleSheet.create({
     color: "#999",
   },
   status: {
-    color: "orange",
+    color: "#F7941D",
     fontWeight: "bold",
     marginLeft: "auto",
   },
