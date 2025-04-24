@@ -1,27 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { Text, Card, ActivityIndicator, Chip } from 'react-native-paper';
-import firestore from '@react-native-firebase/firestore';
-
-const clientId = 'xyz456'; // Replace with actual logged-in user UID
+import { db, auth } from '../../firebase/firebaseConfig';
+import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore';
 
 const MyBookingsScreen = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const clientId = auth.currentUser?.uid;
 
   useEffect(() => {
-    const unsubscribe = firestore()
-      .collection('appointment_requests')
-      .where('clientId', '==', clientId)
-      .orderBy('createdAt', 'desc')
-      .onSnapshot(snapshot => {
-        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    if (!clientId) {
+      setLoading(false);
+      return;
+    }
+
+    const q = query(
+      collection(db, 'appointment_requests'),
+      where('clientId', '==', clientId),
+      orderBy('createdAt', 'desc')
+    );
+
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setBookings(data);
         setLoading(false);
-      });
+      },
+      (error) => {
+        console.error('Error fetching bookings:', error);
+        setLoading(false);
+      }
+    );
 
     return () => unsubscribe();
-  }, []);
+  }, [clientId]);
 
   if (loading) return <ActivityIndicator animating size="large" style={{ marginTop: 32 }} />;
 
@@ -49,7 +63,7 @@ const MyBookingsScreen = () => {
                     ? styles.booked
                     : booking.status === 'rejected'
                     ? styles.rejected
-                    : styles.pending,
+                    : styles.pending
                 ]}
                 textStyle={{ color: 'white' }}
               >
@@ -72,7 +86,7 @@ const styles = StyleSheet.create({
   chip: { marginTop: 8, alignSelf: 'flex-start' },
   booked: { backgroundColor: '#4CAF50' },
   pending: { backgroundColor: '#FFC107' },
-  rejected: { backgroundColor: '#F44336' },
+  rejected: { backgroundColor: '#F44336' }
 });
 
 export default MyBookingsScreen;

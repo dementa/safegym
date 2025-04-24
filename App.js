@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -28,6 +27,11 @@ import TrainerDetails from './screens/trainer/TrainerDetails';
 import MainApp from './screens/MainApp';
 import BookTrainerScreen from './screens/Client/BookTrainerScreen';
 import TrainerAvailabilityScreen from './screens/trainer/TrainerAvailability';
+import BookAppointmentScreen from './screens/Client/BookAppointmentScreen';
+import MyBookingsScreen from './screens/Client/MyBookingsScreen';
+import ClientDetails from './screens/Client/ClientDetails';
+import EditClient from './screens/Client/EditClient';
+import BookingConfirmationScreen from './screens/Client/BookingConfirmationScreen';
 
 const Stack = createStackNavigator();
 
@@ -35,35 +39,52 @@ export default function App() {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Welcome">
+        <Stack.Navigator 
+          screenOptions={{ 
+            headerShown: false,
+            animationEnabled: false 
+          }} 
+          initialRouteName="Welcome"
+        >
+          {/* Authentication Screens */}
           <Stack.Screen name="Splash" component={SplashScreen} />
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="OTPVerifyScreen" component={OTPVerifyScreen} />
           <Stack.Screen name="RoleSelection" component={RoleSelectScreen} />
+          
+          {/* Main App Screens */}
+          <Stack.Screen name="MainApp" component={MainApp} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          
+          {/* Trainer Screens */}
           <Stack.Screen name="Trainer" component={TrainerDetails} />
+          <Stack.Screen name="TrainerDashboard" component={TrainerDashboard} />
+          <Stack.Screen name="AddSession" component={AddSessionScreen} />
+          <Stack.Screen name="SetAvailability" component={TrainerAvailabilityScreen} />
+          
+          {/* Booking Screens */}
+          <Stack.Screen name="BookTrainer" component={BookTrainerScreen} />
+          <Stack.Screen name="BookAppointment" component={BookAppointmentScreen} />
+          <Stack.Screen name="BookingConfirmation" component={BookingConfirmationScreen} />
+          <Stack.Screen name="MyBookings" component={MyBookingsScreen} />
+          
+          {/* Other Screens */}
           <Stack.Screen name="Details" component={SessionDetailsScreen} />
           <Stack.Screen name="UserDetails" component={UserDetailsScreen} />
           <Stack.Screen name="BookingScreen" component={BookingScreen} />
           <Stack.Screen name="Map" component={MapScreen} />
-          <Stack.Screen name="MainApp" component={MainApp} />
-
-          {/* Admin & Trainer access without restrictions */}
-          <Stack.Screen name="TrainerDashboard" component={TrainerDashboard} />
-          <Stack.Screen name="ScheduleAppointment" component={BookTrainerScreen} />
-          <Stack.Screen name="SetAvailability" component={ TrainerAvailabilityScreen }/>
-
-          <Stack.Screen name="AddSession" component={AddSessionScreen} />
+          
+          {/* Admin Screens */}
           <Stack.Screen name="AdminDashboard" component={AdminDashboard} />
           <Stack.Screen name="EnrollTrainer" component={EnrollTrainerScreen} />
           <Stack.Screen name="ManageTrainers" component={TrainerManagementScreen} />
           <Stack.Screen name="ManageUsers" component={ManageUsers} />
           <Stack.Screen name="ManageSessions" component={ManageSessions} />
           <Stack.Screen name="AddUser" component={AddUser} />
-          
-
+          <Stack.Screen name="ClientDetails" component={ClientDetails} />
+          <Stack.Screen name="EditClient" component={EditClient} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

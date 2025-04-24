@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
 import { View, Text, Button, Alert, StyleSheet } from 'react-native';
 import { doc, getDoc, updateDoc, addDoc, collection } from 'firebase/firestore';
-import { db } from '../../firebase/firebaseConfig';
+import { db, auth } from '../../firebase/firebaseConfig';
 
 const BookAppointmentScreen = ({ route, navigation }) => {
-  const { sessionId, trainerId, clientId } = route.params;
+  const { sessionId, trainerId, clientId, requestId } = route.params;
   const [loading, setLoading] = useState(false);
+
+  // Check if user is authenticated
+  if (!auth.currentUser || auth.currentUser.uid !== clientId) {
+    Alert.alert('Error', 'You must be logged in to book an appointment.', [
+      { text: 'OK', onPress: () => navigation.navigate('BookAppointmentScreen') }
+    ]);
+    return null;
+  }
 
   const bookAppointment = async () => {
     setLoading(true);
     try {
-      // 1. Fetch session
-      const sessionRef = doc(db, 'sessions', sessionId);
+      // 1. Fetch session from trainer_availability
+      const sessionRef = doc(db, 'trainer_availability', sessionId);
       const sessionSnap = await getDoc(sessionRef);
 
       if (!sessionSnap.exists()) {
@@ -34,19 +42,32 @@ const BookAppointmentScreen = ({ route, navigation }) => {
         clientId,
         trainerId,
         sessionId,
+        requestId,
         date: new Date().toISOString(),
-        status: 'pending'
+        status: 'booked',
+        day: sessionData.day,
+        time: { start: sessionData.startTime, end: sessionData.endTime }
       });
 
-      // 4. Decrease available slots
+      // 4. Update appointment_requests status
+      const requestRef = doc(db, 'appointment_requests', requestId);
+      await updateDoc(requestRef, { status: 'booked' });
+
+      // 5. Decrease available slots and mark slot as booked
       await updateDoc(sessionRef, {
-        availableSlots: sessionData.availableSlots - 1
+        availableSlots: sessionData.availableSlots - 1,
+        available: false
       });
 
       Alert.alert('Success', 'Appointment booked successfully!');
-      navigation.goBack();
+      navigation.navigate('MyBookings');
     } catch (error) {
-      Alert.alert('Error', error.message);
+      console.error('Error booking appointment:', error);
+      if (error.code === 'permission-denied') {
+        Alert.alert('Error', 'You are not authorized to book this appointment.');
+      } else {
+        Alert.alert('Error', error.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -54,9 +75,9 @@ const BookAppointmentScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Book Session</Text>
+      <Text style={styles.title}>Confirm Appointment</Text>
       <Button
-        title={loading ? "Booking..." : "Book Appointment"}
+        title={loading ? 'Booking...' : 'Confirm Appointment'}
         onPress={bookAppointment}
         disabled={loading}
         color="#FFA726"
@@ -64,8 +85,6 @@ const BookAppointmentScreen = ({ route, navigation }) => {
     </View>
   );
 };
-
-export default BookAppointmentScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -80,3 +99,5 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 });
+
+export default BookAppointmentScreen;

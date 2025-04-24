@@ -12,18 +12,28 @@ const ClientDetails = () => {
 
   const [sessions, setSessions] = useState([]);
   const [appointments, setAppointments] = useState([]);
+  const [requests, setRequests] = useState([]);
 
   useEffect(() => {
     const fetchClientData = async () => {
-      // Fetch sessions booked by client
-      const sessionsQuery = query(collection(db, 'sessions'), where('clients', 'array-contains', client.id));
-      const sessionSnap = await getDocs(sessionsQuery);
-      setSessions(sessionSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      try {
+        // Fetch sessions booked by client
+        const sessionsQuery = query(collection(db, 'sessions'), where('clients', 'array-contains', client.id));
+        const sessionSnap = await getDocs(sessionsQuery);
+        setSessions(sessionSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
 
-      // Fetch appointments by client
-      const appointQuery = query(collection(db, 'appointments'), where('clientId', '==', client.id));
-      const appointSnap = await getDocs(appointQuery);
-      setAppointments(appointSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        // Fetch confirmed appointments
+        const appointQuery = query(collection(db, 'appointments'), where('clientId', '==', client.id));
+        const appointSnap = await getDocs(appointQuery);
+        setAppointments(appointSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+
+        // Fetch appointment requests
+        const requestQuery = query(collection(db, 'appointment_requests'), where('clientId', '==', client.id));
+        const requestSnap = await getDocs(requestQuery);
+        setRequests(requestSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      } catch (error) {
+        console.error('Error fetching client data:', error);
+      }
     };
 
     fetchClientData();
@@ -55,20 +65,43 @@ const ClientDetails = () => {
             <Text style={styles.sessionTitle}>{item.title}</Text>
           </View>
         )}
+        ListEmptyComponent={<Text>No sessions joined yet.</Text>}
       />
 
-      <Text style={styles.sectionTitle}>Appointments</Text>
+      <Text style={styles.sectionTitle}>Confirmed Appointments</Text>
       <FlatList
         horizontal
         data={appointments}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.appointmentCard}>
-            <Text style={styles.appointmentTitle}>{item.trainerName}</Text>
-            <Text style={styles.appointmentInfo}>Date: {item.date}</Text>
+            <Text style={styles.appointmentTitle}>Trainer ID: {item.trainerId}</Text>
+            <Text style={styles.appointmentInfo}>Date: {item.day || item.date}</Text>
+            <Text style={styles.appointmentInfo}>
+              Time: {item.time?.start} - {item.time?.end}
+            </Text>
             <Text style={styles.appointmentInfo}>Status: {item.status}</Text>
           </View>
         )}
+        ListEmptyComponent={<Text>No confirmed appointments.</Text>}
+      />
+
+      <Text style={styles.sectionTitle}>Pending Requests</Text>
+      <FlatList
+        horizontal
+        data={requests}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.appointmentCard}>
+            <Text style={styles.appointmentTitle}>Trainer ID: {item.trainerId}</Text>
+            <Text style={styles.appointmentInfo}>Date: {item.day}</Text>
+            <Text style={styles.appointmentInfo}>
+              Time: {item.requestedTime.start} - {item.requestedTime.end}
+            </Text>
+            <Text style={styles.appointmentInfo}>Status: {item.status}</Text>
+          </View>
+        )}
+        ListEmptyComponent={<Text>No pending requests.</Text>}
       />
 
       <TouchableOpacity
@@ -80,8 +113,6 @@ const ClientDetails = () => {
     </View>
   );
 };
-
-export default ClientDetails;
 
 const styles = StyleSheet.create({
   container: {
@@ -163,3 +194,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   }
 });
+
+export default ClientDetails;
